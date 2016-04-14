@@ -1,0 +1,57 @@
+[InterruptLog]
+LogEnabled=0
+SumEnabled=0
+GraphEnabled=0
+ShowTimeLog=1
+ShowTimeSum=1
+SumSortOrder=0
+[Stack]
+FillEnabled=0
+OverflowWarningsEnabled=1
+WarningThreshold=90
+SpWarningsEnabled=1
+WarnLogOnly=1
+UseTrigger=1
+TriggerName=main
+LimitSize=0
+ByteLimit=50
+[Interrupts]
+Enabled=1
+[MemoryMap]
+Enabled=0
+Base=0
+UseAuto=0
+TypeViolation=1
+UnspecRange=1
+ActionState=1
+[Trace1]
+Enabled=0
+ShowSource=1
+[DebugChecksum]
+Checksum=-1049609296
+[CallStack]
+ShowArgs=0
+[Disassembly]
+MixedMode=1
+[Log file]
+LoggingEnabled=_ 0
+LogFile=_ ""
+Category=_ 0
+[TermIOLog]
+LoggingEnabled=_ 0
+LogFile=_ ""
+[Breakpoints]
+Bp0=_ "STD_DATA" "display_string_8x16" 0 0 0 3 0 "" 0 ""
+Bp1=_ "STD_DATA" "display_string_8x16" 0 0 0 3 0 "" 0 ""
+Bp2=_ "STD_DATA" "LedGPIO_init" 0 0 0 3 0 "" 0 ""
+Bp3=_ "STD_DATA" "display_string_8x16" 0 0 0 3 0 "" 0 ""
+Bp4=_ "STD_DATA" "Driver_TimeON" 0 0 0 3 0 "" 0 ""
+Bp5=_ "STD_CODE" "{$PROJ_DIR$\User\stm8s_it.c}.238.9" 0 0 0 0 "" 0 ""
+Count=6
+[Aliases]
+A0=_ "C:\Users\chzu131\Desktop\LCD_POWER2\LCD_POWER\User\main.c" "C:\Users\chzu131\Desktop\LCD_POWER\User\main.c"
+A1=_ "C:\Users\chzu131\Desktop\LCD_POWER\User\lcdControl.c" "C:\Users\chzu131\Desktop\LCD_POWER2\LCD_POWER\User\lcdControl.c"
+A2=_ "D:\baiduyundownload\EU-STM8S全功能型开发板资料\4 基础实验\IAR环境\实验3. GPIO\User\main.c" ""
+A3=_ "D:\baiduyundownload\EU-STM8S全功能型开发板资料\s8f_iar_info_0730\s8f_iar_info\实验例程\基础实验\实验3. GPIO\FWlib\src\stm8s_gpio.c" ""
+Count=4
+SuppressDialog=0
