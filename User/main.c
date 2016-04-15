@@ -34,6 +34,7 @@ short sOutputPutCurrent = 0;
 int pwmOut = 0;
             
 u8 checkOut1A=0,checkOut2A=0;
+u8 checkIN = 0;
     
 u8 i;
 short AD_Voltage = 0;     //输入电压
@@ -1164,10 +1165,10 @@ short getInputCurrent(short battVolume)
   //battVolume = 3333;
   //u16_ADC1_value = 25;
   
-  if(u16_ADC1_value < calInputVol(64))  //要求64MV以上
-  {
-    return -1;
-  }
+//  if(u16_ADC1_value < calInputVol(64))  //要求64MV以上
+//  {
+//    return -1;
+//  }
   
   
   if(battVolume < 3700)
@@ -1287,7 +1288,7 @@ void loop()
             
           }
           
-          //检测过流保护
+          //检测充电，放电
           if(systemRunTime - overCurrentCheckTime > 500)
           {
               overCurrentCheckTime = systemRunTime;
@@ -1339,23 +1340,33 @@ void loop()
                   checkOut2A = 0;
                 }
                 
-                //checkOut1A = 1;
+                //读取charge状态,PB2
+                Driver_ADCON(ADC1_CHANNEL_2);
+                DIS_Delayms(10);
+                // 开始转换
+                ADC1_StartConversion();
+                DIS_Delayms(10);
+                u16_ADC1_valueSum = 0;
                 
-              bit_status = getInputStatus();
+                //读ADC值
+                for(i=0;i<20;i++)
+                {
+                  u16_ADC1_valueSum += ADC1_GetConversionValue();
+                }
+                u16_ADC1_value = u16_ADC1_valueSum /20;
+                if(u16_ADC1_value > 0)  //标志有输出
+                {
+                  checkIN = 1;
+                }
+                else
+                {
+                  checkIN = 0;
+                }
+                
+                
+             // bit_status = getInputStatus();
                  
-              if(bit_status != RESET)             //显示输入电流
-              {
-                  //display_string_16x24(3,0,"IN ",custome,black);
-                
-                  //通过电池电压，获取充电电流
-                  sInputPutCurrent = getInputCurrent(battVoltage);
-                  if(sInputPutCurrent != -1)
-                  {
-                      updateUIInputVolume(sInputPutCurrent);
-                  }
-                  
-              }
-              else if((checkOut2A == 1)||(checkOut1A == 1))
+              if((checkOut2A == 1)||(checkOut1A == 1))
               {
                   //display_string_16x24(3,0,"$",custome,black);
 //                  if((checkOut2A == 1)&&(checkOut1A == 1))
@@ -1376,10 +1387,23 @@ void loop()
                      updateUIOutputVolume(sOutputPutCurrent);
                   }
               }
-              else if(((checkOut2A == 0)&&(checkOut1A == 0))&&(bit_status == RESET))
+              else //if(checkIN == 1)             //显示输入电流
               {
-                display_string_16x24(2,0,"        ",custome,black);
+                  display_string_16x24(3,0,"IN ",custome,black);
+                
+                  //通过电池电压，获取充电电流
+                  sInputPutCurrent = getInputCurrent(battVoltage);
+                  //if(sInputPutCurrent != -1)
+                  { 
+                      updateUIInputVolume(sInputPutCurrent);
+                  }
+                  
               }
+               
+//              else if(((checkOut2A == 0)&&(checkOut1A == 0))&&(bit_status == RESET))
+//              {
+//                display_string_16x24(2,0,"        ",custome,black);
+//              }
              
                    
               //充电PWM控制
