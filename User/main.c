@@ -454,9 +454,17 @@ void updateUIInputVolume(short InputVolumeIndex)
   {
     display_string_16x24(2,0,"IN100ma",custome,black);
   }
+  if(curInputVolumeIndex == 200)
+  {
+    display_string_16x24(2,0,"IN200ma",custome,black);
+  }
   if(curInputVolumeIndex == 300)
   {
     display_string_16x24(2,0,"IN300ma",custome,black);
+  }
+  if(curInputVolumeIndex == 400)
+  {
+    display_string_16x24(2,0,"IN400ma",custome,black);
   }
   if(curInputVolumeIndex == 500)
   {
@@ -466,21 +474,17 @@ void updateUIInputVolume(short InputVolumeIndex)
   {
     display_string_16x24(2,0,"IN600ma",custome,black);
   }
-  else if(curInputVolumeIndex == 800)
+  else if(curInputVolumeIndex == 799)
   {
-    display_string_16x24(2,0,"IN800ma",custome,black);
+    display_string_16x24(2,0,"IN799ma",custome,black);
   }
-  else if(curInputVolumeIndex == 1000)
+  else if(curInputVolumeIndex == 599)
   {
-    display_string_16x24(2,0,"IN1000ma",custome,black);
+    display_string_16x24(2,0,"IN599ma",custome,black);
   }
-  else if(curInputVolumeIndex == 1200)
+  else if(curInputVolumeIndex == 1190)
   {
-    display_string_16x24(2,0,"IN1200ma",custome,black);
-  }
-  else if(curInputVolumeIndex == 1500)
-  {
-    display_string_16x24(2,0,"IN1500ma",custome,black);
+    display_string_16x24(2,0,"IN1190ma",custome,black);
   }
   else if(curInputVolumeIndex == 0)
   {
@@ -1160,28 +1164,43 @@ short getInputCurrent(short battVolume)
   {
     u16_ADC1_valueSum += ADC1_GetConversionValue();
   }
+  
   u16_ADC1_value = u16_ADC1_valueSum /20;
   
-  //battVolume = 3333;
-  //u16_ADC1_value = 25;
-  
-//  if(u16_ADC1_value < calInputVol(64))  //要求64MV以上
-//  {
-//    return -1;
-//  }
-  
-  
-  if(battVolume < 3700)
+  if(u16_ADC1_value >= calInputVol(11)&& u16_ADC1_value < calInputVol(22))
   {
-      InputCurrent = (1190);
+    InputCurrent = (100);
   }
-  else if(battVolume >= 3700 && battVolume < 3900)
+  if(u16_ADC1_value >= calInputVol(22)&& u16_ADC1_value < calInputVol(35))
   {
-      InputCurrent = (799);
+    InputCurrent = (200);
   }
-  else if(battVolume >= 3900)
+  if(u16_ADC1_value >= calInputVol(35)&& u16_ADC1_value < calInputVol(45))
   {
-    InputCurrent = (599);
+    InputCurrent = (300);
+  }
+  if(u16_ADC1_value >= calInputVol(45)&& u16_ADC1_value < calInputVol(58))
+  {
+    InputCurrent = (400);
+  }
+  if(u16_ADC1_value >= calInputVol(58)&& u16_ADC1_value < calInputVol(64))
+  {
+    InputCurrent = (500);
+  }
+  else if(u16_ADC1_value >= calInputVol(64))
+  {
+    if(battVolume < 3700)
+    {
+        InputCurrent = (1190);
+    }
+    else if(battVolume >= 3700 && battVolume < 3900)
+    {
+        InputCurrent = (799);
+    }
+    else if(battVolume >= 3900)
+    {
+      InputCurrent = (599);
+    }
   }
   
   return InputCurrent;
@@ -1340,40 +1359,9 @@ void loop()
                   checkOut2A = 0;
                 }
                 
-                //读取charge状态,PB2
-                Driver_ADCON(ADC1_CHANNEL_2);
-                DIS_Delayms(10);
-                // 开始转换
-                ADC1_StartConversion();
-                DIS_Delayms(10);
-                u16_ADC1_valueSum = 0;
                 
-                //读ADC值
-                for(i=0;i<20;i++)
-                {
-                  u16_ADC1_valueSum += ADC1_GetConversionValue();
-                }
-                u16_ADC1_value = u16_ADC1_valueSum /20;
-                if(u16_ADC1_value > 0)  //标志有输出
-                {
-                  checkIN = 1;
-                }
-                else
-                {
-                  checkIN = 0;
-                }
-                
-                
-             // bit_status = getInputStatus();
-                 
               if((checkOut2A == 1)||(checkOut1A == 1))
               {
-                  //display_string_16x24(3,0,"$",custome,black);
-//                  if((checkOut2A == 1)&&(checkOut1A == 1))
-//                  {
-//                     updateUIOutputVolume(4950);
-//                  }
-//                  else 
                   if(checkOut2A == 1)
                   {
                      //通过电池电压，获取放电电流
@@ -1387,10 +1375,8 @@ void loop()
                      updateUIOutputVolume(sOutputPutCurrent);
                   }
               }
-              else //if(checkIN == 1)             //显示输入电流
+              else                 //显示输入电流
               {
-                  display_string_16x24(3,0,"IN ",custome,black);
-                
                   //通过电池电压，获取充电电流
                   sInputPutCurrent = getInputCurrent(battVoltage);
                   //if(sInputPutCurrent != -1)
@@ -1399,11 +1385,6 @@ void loop()
                   }
                   
               }
-               
-//              else if(((checkOut2A == 0)&&(checkOut1A == 0))&&(bit_status == RESET))
-//              {
-//                display_string_16x24(2,0,"        ",custome,black);
-//              }
              
                    
               //充电PWM控制

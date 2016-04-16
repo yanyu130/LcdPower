@@ -31,10 +31,10 @@ Bp5=_ "STD_DATA" "TIM1_SetCompare3" 0 0 0 3 0 "" 0 ""
 Bp6=_ "STD_DATA" "display_string_16x32" 0 0 0 3 0 "" 0 ""
 Bp7=_ "STD_DATA" "text[i]" 0 0 0 3 0 "" 0 ""
 Bp8=_ "STD_DATA" "display_string_16x24" 0 0 0 3 0 "" 0 ""
-Bp9=_ "STD_CODE" "{$PROJ_DIR$\User\main.c}.324.7" 1 0 0 0 "" 0 ""
-Bp10=_ "STD_CODE" "{$PROJ_DIR$\User\main.c}.632.7" 1 0 0 0 "" 0 ""
+Bp9=_ "STD_CODE" "{$PROJ_DIR$\User\main.c}.325.7" 1 0 0 0 "" 0 ""
+Bp10=_ "STD_CODE" "{$PROJ_DIR$\User\main.c}.633.7" 1 0 0 0 "" 0 ""
 Bp11=_ "STD_CODE" "{$PROJ_DIR$\User\key.c}.115.15" 1 0 0 0 "" 0 ""
-Bp12=_ "STD_CODE" "{$PROJ_DIR$\User\main.c}.1351.19" 1 0 0 0 "" 0 ""
+Bp12=_ "STD_CODE" "{$PROJ_DIR$\User\main.c}.1369.15" 1 0 0 0 "" 0 ""
 Count=13
 [Aliases]
 Count=0
